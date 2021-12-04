@@ -44,12 +44,15 @@ class Submarine:
 PUZZLE_DIR = pathlib.Path(__file__).parent
 
 
-def parse(puzzle_input: str):
+def parse_input(puzzle_input: str) -> list[str]:
     return puzzle_input.splitlines()
 
 
-def part1(data):
+def part1(data: list[str]) -> int:
     """Solve part 1"""
+    submarine = Submarine(0, 0, data)
+    submarine.run()
+    return submarine.get_position()
 
 
 def part2(data):
@@ -58,7 +61,7 @@ def part2(data):
 
 def solve(puzzle_input):
     """Solve the puzzle for the given input"""
-    data = parse(puzzle_input)
+    data = parse_input(puzzle_input)
     solution1 = part1(data)
     solution2 = part2(data)
     return solution1, solution2
