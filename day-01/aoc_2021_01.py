@@ -1,4 +1,6 @@
 import pathlib
+import collections
+from itertools import islice
 
 PUZZLE_DIR = pathlib.Path(__file__).parent
 
@@ -18,14 +20,29 @@ def count_increases(readings: list[int]) -> int:
         previous_reading = reading
     return increases
 
+# NOTE: taken from https://docs.python.org/3/library/itertools.html
+
+
+def sliding_window(iterable, n):
+    # sliding_window('ABCDEFG', 4) -> ABCD BCDE CDEF DEFG
+    it = iter(iterable)
+    window = collections.deque(islice(it, n), maxlen=n)
+    if len(window) == n:
+        yield tuple(window)
+    for x in it:
+        window.append(x)
+        yield tuple(window)
+
 
 def part1(data: list[int]) -> int:
     """Solve part 1"""
     return count_increases(data)
 
 
-def part2(data):
+def part2(data: list[int]) -> int:
     """Solve part 2"""
+    window_sums = [sum(window) for window in sliding_window(data, 3)]
+    return count_increases(window_sums)
 
 
 def solve(puzzle_input):
