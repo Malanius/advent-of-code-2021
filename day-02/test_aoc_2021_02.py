@@ -1,6 +1,6 @@
 import pathlib
 import pytest
-import solver as solver
+import aoc_2021_02 as solver
 
 PUZZLE_DIR = pathlib.Path(__file__).parent
 
@@ -17,10 +17,16 @@ def example2():
     return solver.parse(puzzle_input)
 
 
-@pytest.mark.skip(reason="Not implemented")
 def test_parse_example1(example1):
     """Test that input is parsed properly"""
-    assert example1 == ...
+    assert example1 == [
+        "forward 5",
+        "down 5",
+        "forward 8",
+        "up 3",
+        "down 8",
+        "forward 2"
+    ]
 
 
 @pytest.mark.skip(reason="Not implemented")
