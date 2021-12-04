@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "advent-of-code"
+version = "0.1.0"
+description = ""
+authors = ["Malanius Privierre <malaniusprivierre@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "~3.9"
+advent-of-code-data = "^1.1.1"
+parse = "^1.19.0"
+numpy = "^1.21.4"
+colorama = "^0.4.4"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+autopep8 = "^1.6.0"
+pylint = "^2.12.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
