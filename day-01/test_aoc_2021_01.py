@@ -13,12 +13,13 @@ def example():
 
 def test_parse_example(example):
     """Test that input is parsed properly"""
-    assert example == [199, 200, 208, 210, 200, 207, 240, 269, 260, 263, ]
+    assert example == [199, 200, 208, 210, 200, 207, 240, 269, 260, 263]
 
 
 def test_part1(example):
     """Test part 1 on example input"""
     assert solver.part1(example) == 7
+
 
 @pytest.mark.skip(reason="Not implemented")
 def test_part2(example):
