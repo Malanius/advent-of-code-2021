@@ -1,4 +1,45 @@
 import pathlib
+from dataclasses import dataclass
+from typing import Literal, TypedDict
+
+import parse
+
+
+class MoveInstruction(TypedDict):
+    direction: str
+    unit: int
+
+
+@dataclass
+class Submarine:
+    horizontal_position: int
+    depth: int
+    commands: list[str]
+    pattern = "{direction} {unit:d}"
+
+    def parse_instruction(self, command: str) -> MoveInstruction:
+        match = parse.search(self.pattern, command)
+        return match.named
+
+    def move(self, direction: Literal["forward", "down", "up"], unit: int):
+        if direction == "forward":
+            self.horizontal_position += unit
+        # NOTE: down and up are switched as we're under water
+        if direction == "down":
+            self.depth += unit
+        if direction == "up":
+            self.depth -= unit
+
+    def run(self):
+        """Run the commands"""
+        for command in self.commands:
+            instruction = self.parse_instruction(command)
+            self.move(instruction["direction"], instruction["unit"])
+
+    def get_position(self):
+        """Get position of the submarine"""
+        return self.horizontal_position * self.depth
+
 
 PUZZLE_DIR = pathlib.Path(__file__).parent
 
