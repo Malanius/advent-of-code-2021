@@ -4,6 +4,8 @@ from typing import Literal, TypedDict
 
 import parse
 
+PUZZLE_DIR = pathlib.Path(__file__).parent
+
 
 class MoveInstruction(TypedDict):
     direction: str
@@ -41,7 +43,19 @@ class Submarine:
         return self.horizontal_position * self.depth
 
 
-PUZZLE_DIR = pathlib.Path(__file__).parent
+@dataclass
+class AimingSubmarine(Submarine):
+    aim: int
+
+    def move(self, direction: Literal["forward", "down", "up"], unit: int):
+        if direction == "forward":
+            self.horizontal_position += unit
+            self.depth += self.aim * unit
+        # NOTE: down and up are switched as we're under water
+        if direction == "down":
+            self.aim += unit
+        if direction == "up":
+            self.aim -= unit
 
 
 def parse_input(puzzle_input: str) -> list[str]:
@@ -55,8 +69,11 @@ def part1(data: list[str]) -> int:
     return submarine.get_position()
 
 
-def part2(data):
+def part2(data: list[str]) -> int:
     """Solve part 2"""
+    submarine = AimingSubmarine(0, 0, data, 0)
+    submarine.run()
+    return submarine.get_position()
 
 
 def solve(puzzle_input):
