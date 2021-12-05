@@ -21,6 +21,28 @@ def get_bit_counts(data: list[list[str]]) -> list[BitCount]:
     return bit_counts
 
 
+def get_gamma_value(bit_counts: list[BitCount]) -> int:
+    most_common_bits: str = ""
+    for bit_count in bit_counts:
+        if bit_count["ones"] > bit_count["zeroes"]:
+            most_common_bits += "1"
+        else:
+            most_common_bits += "0"
+    gamma = int(most_common_bits, 2)
+    return gamma
+
+
+def get_sigma_value(bit_counts: list[BitCount]) -> int:
+    least_common_bits: str = ""
+    for bit_count in bit_counts:
+        if bit_count["ones"] > bit_count["zeroes"]:
+            least_common_bits += "0"
+        else:
+            least_common_bits += "1"
+    sigma = int(least_common_bits, 2)
+    return sigma
+
+
 def parse(puzzle_input: str):
     """Parse input"""
     lines = puzzle_input.splitlines()
