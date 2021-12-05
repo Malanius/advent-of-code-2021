@@ -71,7 +71,30 @@ def part1(data: list[list[str]]):
     return gamma * epsiolon
 
 
-def part2(data):
+def filter_out_least_common_bits(df: DataFrame, index: int = 0):
+    if len(df) == 1:
+        return df
+    else:
+        counts = df[index].value_counts()
+        bit_count = {"zeroes": counts["0"], "ones": counts["1"]}
+        least_common_bit = get_least_common_bit(bit_count)
+        df = df[df[index] != least_common_bit]
+        print(df)
+        print("---")
+        return filter_out_least_common_bits(df, index + 1)
+
+
+def filter_out_most_common_bits(df: DataFrame, index: int = 0) -> DataFrame:
+    if len(df) == 1:
+        return df
+    else:
+        counts = df[index].value_counts()
+        bit_count = {"zeroes": counts["0"], "ones": counts["1"]}
+        most_common_bit = get_most_common_bit(bit_count)
+        df = df[df[index] != most_common_bit]
+        print(df)
+        print("---")
+        return filter_out_most_common_bits(df, index + 1)
     """Solve part 2"""
 
 
