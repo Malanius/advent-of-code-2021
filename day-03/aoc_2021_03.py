@@ -1,6 +1,24 @@
 import pathlib
+from typing import List, TypedDict
+
+
+import pandas as pd
 
 PUZZLE_DIR = pathlib.Path(__file__).parent
+
+
+class BitCount(TypedDict):
+    zeroes: int
+    ones: int
+
+
+def get_bit_counts(data: list[list[str]]) -> list[BitCount]:
+    df = pd.DataFrame(data)
+    bit_counts: BitCount = []
+    for column in df:
+        counts = df[column].value_counts()
+        bit_counts.append({"zeroes": counts["0"], "ones": counts["1"]})
+    return bit_counts
 
 
 def parse(puzzle_input: str):
@@ -10,7 +28,9 @@ def parse(puzzle_input: str):
     return data
 
 def part1(data):
+def part1(data: list[list[str]]):
     """Solve part 1"""
+    bit_counts = get_bit_counts(data)
 
 
 def part2(data):
