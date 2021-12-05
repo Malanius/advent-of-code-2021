@@ -1,8 +1,9 @@
 import pathlib
-from typing import List, TypedDict
+from typing import TypedDict
 
 
 import pandas as pd
+from pandas.core.frame import DataFrame
 
 PUZZLE_DIR = pathlib.Path(__file__).parent
 
@@ -10,6 +11,13 @@ PUZZLE_DIR = pathlib.Path(__file__).parent
 class BitCount(TypedDict):
     zeroes: int
     ones: int
+
+
+def parse(puzzle_input: str):
+    """Parse input"""
+    lines = puzzle_input.splitlines()
+    data = [list(line) for line in lines]
+    return data
 
 
 def get_bit_counts(data: list[list[str]]) -> list[BitCount]:
@@ -21,13 +29,28 @@ def get_bit_counts(data: list[list[str]]) -> list[BitCount]:
     return bit_counts
 
 
+def get_most_common_bit(bit_count: BitCount):
+    if bit_count["ones"] > bit_count["zeroes"]:
+        return "1"
+    elif bit_count["ones"] == bit_count["zeroes"]:
+        return "1"
+    else:
+        return "0"
+
+
+def get_least_common_bit(bit_count: BitCount):
+    if bit_count["ones"] > bit_count["zeroes"]:
+        return "0"
+    elif bit_count["ones"] == bit_count["zeroes"]:
+        return "0"
+    else:
+        return "1"
+
+
 def get_gamma_value(bit_counts: list[BitCount]) -> int:
     most_common_bits: str = ""
     for bit_count in bit_counts:
-        if bit_count["ones"] > bit_count["zeroes"]:
-            most_common_bits += "1"
-        else:
-            most_common_bits += "0"
+        most_common_bits += get_most_common_bit(bit_count)
     gamma = int(most_common_bits, 2)
     return gamma
 
@@ -35,19 +58,9 @@ def get_gamma_value(bit_counts: list[BitCount]) -> int:
 def get_sigma_value(bit_counts: list[BitCount]) -> int:
     least_common_bits: str = ""
     for bit_count in bit_counts:
-        if bit_count["ones"] > bit_count["zeroes"]:
-            least_common_bits += "0"
-        else:
-            least_common_bits += "1"
+        least_common_bits += get_least_common_bit(bit_count)
     sigma = int(least_common_bits, 2)
     return sigma
-
-
-def parse(puzzle_input: str):
-    """Parse input"""
-    lines = puzzle_input.splitlines()
-    data = [list(line) for line in lines]
-    return data
 
 
 def part1(data: list[list[str]]):
