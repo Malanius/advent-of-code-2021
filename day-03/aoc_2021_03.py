@@ -49,10 +49,13 @@ def parse(puzzle_input: str):
     data = [list(line) for line in lines]
     return data
 
-def part1(data):
+
 def part1(data: list[list[str]]):
     """Solve part 1"""
     bit_counts = get_bit_counts(data)
+    gamma = get_gamma_value(bit_counts)
+    epsiolon = get_sigma_value(bit_counts)
+    return gamma * epsiolon
 
 
 def part2(data):
