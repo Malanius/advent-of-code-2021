@@ -95,7 +95,20 @@ def filter_out_most_common_bits(df: DataFrame, index: int = 0) -> DataFrame:
         print(df)
         print("---")
         return filter_out_most_common_bits(df, index + 1)
+
+
+def part2(data: list[list[str]]):
     """Solve part 2"""
+    df = pd.DataFrame(data)
+    oxygen_bits = filter_out_least_common_bits(df).values.tolist()[0]
+    scrubber_bits = filter_out_most_common_bits(df).values.tolist()[0]
+    print(f"O2 bits: {oxygen_bits}")
+    print(f"Scrubber bits: {scrubber_bits}")
+    oxygen_value = int("".join(oxygen_bits), 2)
+    scrubber_value = int("".join(scrubber_bits), 2)
+    print(f"O2 value: {oxygen_value}")
+    print(f"Scrubber value: {scrubber_value}")
+    return scrubber_value * oxygen_value
 
 
 def solve(puzzle_input):
@@ -109,4 +122,5 @@ def solve(puzzle_input):
 if __name__ == "__main__":
     puzzle_input = (PUZZLE_DIR / "data.txt").read_text().strip()
     solutions = solve(puzzle_input)
+    print("--- Solutions ---")
     print("\n".join(str(solution) for solution in solutions))
