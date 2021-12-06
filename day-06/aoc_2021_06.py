@@ -1,7 +1,6 @@
 import pathlib
 import time
 
-import numpy as np
 
 PUZZLE_DIR = pathlib.Path(__file__).parent
 
@@ -35,20 +34,44 @@ def part1(data: list[int], days: int) -> int:
 
 def part2(data: list[int], days: int):
     """Solve part 2"""
-    data_np = np.array(data)
     start = time.perf_counter()
+
+    # TODO: is there better way to do this?
+    # Is anyone surprised that numbers can be keys like me?
+    data_dict = {}
+    for fish in data:
+        if fish in data_dict:
+            data_dict[fish] += 1
+        else:
+            data_dict[fish] = 1
+
+    # NOTE: not so pretty, but working and fast!
     for i in range(0, days):
-        if (i % 32 == 0):
-            print(f"Day {i:>2}: {data_np}")
-        births = (data_np == 0).sum()
-        ones = np.ones(data_np.size, dtype=int)
-        new_data: np.ndarray = data_np - ones
-        new_data = np.concatenate((new_data, np.full(births, 8)))
-        new_data = np.where(new_data < 0, 6, new_data)
-        data_np = new_data
+        # print(f"Day {i:>2}: {data_dict}")
+        
+        # Count births before the tick
+        births = 0
+        if 0 in data_dict:
+            births = data_dict[0]
+
+        # Shift all keys by -1
+        data_dict = {key-1: value for (key, value) in data_dict.items()}
+
+        # Convert any -1 fishes to 6
+        if -1 in data_dict:
+            if 6 in data_dict:
+                data_dict[6] += data_dict[-1]
+            else:
+                data_dict[6] = data_dict[-1]
+            data_dict.pop(-1)
+
+        # Finally add baby fishes
+        # No need to check for key since they will go to 7 on next tick
+        data_dict[8] = births
+
     end = time.perf_counter()
     print(f"Solved {days} days in {end - start:0.4f} seconds")
-    return len(data_np)
+    return sum([value for value in data_dict.values()])
 
 
 def solve(puzzle_input: str):
@@ -60,6 +83,6 @@ def solve(puzzle_input: str):
 
 
 if __name__ == "__main__":
-    puzzle_input = (PUZZLE_DIR / "example.txt").read_text().strip()
+    puzzle_input = (PUZZLE_DIR / "data.txt").read_text().strip()
     solutions = solve(puzzle_input)
     print("\n".join(str(solution) for solution in solutions))
