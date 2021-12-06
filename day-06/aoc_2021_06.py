@@ -1,4 +1,5 @@
 import pathlib
+import time
 
 PUZZLE_DIR = pathlib.Path(__file__).parent
 
@@ -12,6 +13,7 @@ def parse(puzzle_input: str) -> list[int]:
 # Not fastest way to run, but write, let's hope part 2 is not for more days...
 def part1(data: list[int], days: int) -> int:
     """Solve part 1"""
+    start = time.perf_counter()
     for i in range(0, days):
         # print(f"Day {i:>2}: {data}")
         new_data: list[int] = []
@@ -24,6 +26,8 @@ def part1(data: list[int], days: int) -> int:
             timer = fish_timer - 1
             new_data.append(timer)
         data = new_data + births
+    end = time.perf_counter()
+    print(f"Solved {days} days in {end - start:0.4f} seconds")
     return len(data)
 
 
