@@ -28,7 +28,7 @@ def part1(data: list[int], days: int) -> int:
             new_data.append(timer)
         data = new_data + births
     end = time.perf_counter()
-    print(f"Solved {days} days in {end - start:0.4f} seconds")
+    print(f"Solved {days} days in {(end - start) * 1_000:0.4f} ms")
     return len(data)
 
 
@@ -48,7 +48,7 @@ def part2(data: list[int], days: int):
     # NOTE: not so pretty, but working and fast!
     for i in range(0, days):
         # print(f"Day {i:>2}: {data_dict}")
-        
+
         # Count births before the tick
         births = 0
         if 0 in data_dict:
@@ -70,7 +70,7 @@ def part2(data: list[int], days: int):
         data_dict[8] = births
 
     end = time.perf_counter()
-    print(f"Solved {days} days in {end - start:0.4f} seconds")
+    print(f"Solved {days} days in {(end - start) * 1_000:0.4f} ms")
     return sum([value for value in data_dict.values()])
 
 
