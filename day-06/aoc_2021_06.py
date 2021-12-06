@@ -9,8 +9,22 @@ def parse(puzzle_input: str) -> list[int]:
     return [int(value) for value in splitted]
 
 
-def part1(data: list[int]):
+# Not fastest way to run, but write, let's hope part 2 is not for more days...
+def part1(data: list[int], days: int) -> int:
     """Solve part 1"""
+    for i in range(0, days):
+        # print(f"Day {i:>2}: {data}")
+        new_data: list[int] = []
+        births: list[int] = []
+        for fish_timer in data:
+            if fish_timer == 0:
+                new_data.append(6)
+                births.append(8)
+                continue
+            timer = fish_timer - 1
+            new_data.append(timer)
+        data = new_data + births
+    return len(data)
 
 
 def part2(data: list[int]):
@@ -20,7 +34,8 @@ def part2(data: list[int]):
 def solve(puzzle_input: str):
     """Solve the puzzle for the given input"""
     data = parse(puzzle_input)
-    solution1 = part1(data)
+    days = 80
+    solution1 = part1(data, days)
     solution2 = part2(data)
     return solution1, solution2
 
